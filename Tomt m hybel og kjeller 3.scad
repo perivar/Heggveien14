@@ -94,60 +94,117 @@ cube([250,100,100]);
 
 }
 
+// cube with hole like wall
+module walls(color, x, y, z, a, b, h) {
+
+difference() {
+color(color) translate([x,y,z]) cube([a+wallthick, b+wallthick, h]);
+
+translate([x+wallthick,y+wallthick,z]) cube([a-wallthick, b-wallthick, h-wallthick]);
+    } 
+}
+
+wallthick = 2*25;
+startx=90;
+starty=290;
+
 module firstfloor() {
-// 700x800 block
-color("gray") translate([100,300+500+wallthick,0]) cube([700+wallthick, 800+wallthick, 300]);
+    
+// 700x800 block = 56
+difference() {    
+walls("gray", startx, starty+500+wallthick, 0, 700, 800, 300);
 
-// 500x500 block
-color("lightgray") translate([100+700+wallthick,300+500+wallthick,0]) cube([500+wallthick, 500+wallthick, 300]);
+translate([startx-wallthick, starty+600, 100]) cube([wallthick*3, 500, 100]);
+    
+translate([500, 700+wallthick, 0]) cube([200, wallthick*3, 200]);    
+    
+translate([500, 1600+wallthick, 0]) cube([200, wallthick*3, 200]);        
+}
 
-// 1100x500 block
-color("darkgray") translate([100+700+wallthick,300,0]) cube([1100+wallthick, 500+wallthick, 300]);
+// 500x500 block = 25
+difference() {    
+walls("lightgray", startx+700+wallthick,starty+500+wallthick, 0, 500, 500, 300);
+    
+    translate([startx+1200+wallthick, 1000+wallthick, 100]) cube([wallthick*3, 200, 100]);    
+}    
+    
+// 1100x500 block = 55
+difference() {
+walls("darkgray", startx+700+wallthick,starty, 0, 1100, 500, 300); 
+    
+translate([startx+1800, 400, 100]) cube([wallthick*3, 300, 100]);            
+}
+    
 }
 
 module secondfloor() {
 difference() {
+union() {
     
-    union() {
 // 700x800 block
-color("gray") translate([100,300+500+wallthick,300]) cube([700+wallthick, 800+wallthick, 300]);
+difference() {
+walls("gray", startx, starty+500+wallthick, 300, 700, 800, 300);
 
+translate([500, 1600+wallthick, 400]) cube([200, wallthick*3, 100]);            
+}
+
+        
 // 500x500 block
-color("lightgray") translate([100+700+wallthick,300+500+wallthick,300]) cube([500+wallthick, 500+wallthick, 300]);
+    difference() {
+walls("lightgray", startx+700+wallthick,starty+500+wallthick, 300, 500, 500, 300);    
 
+    translate([startx+1200+wallthick, 1000+wallthick, 400]) cube([wallthick*3, 200, 100]);            
+}
+    
 // 1100x500 block
-color("darkgray") translate([100+700+wallthick,300,300]) cube([1100+wallthick, 500+wallthick, 300]);
-    }
+difference() {        
+walls("darkgray", startx+700+wallthick,starty, 300, 1100, 500, 300);
+
+translate([startx+1200, 250, starty+50]) cube([600, wallthick*3, 200]);    
+    
+translate([startx+1800, 400, starty+50]) cube([wallthick*3, 300, 200]);        
+}
+}
     
 // terrace cutout
 color("lightgray") {
-union() {
-hull() {
-translate([100-1,300-1,300]) cube([500+wallthick, 500+200+wallthick, 320]);    
+  union() {
+    hull() {
+translate([startx-1,starty-1,300]) cube([500+wallthick, 500+200+wallthick, 320]);    
 
-translate([500-1,300-1,300]) cube([500+wallthick, 300+wallthick, 320]);    
-}        
-    }           
-    }    
+translate([startx+400-1,starty-1,300]) cube([500+wallthick, 300+wallthick, 320]);    
+    }        
+  }           
+}    
+
 }
 }
 
+module garage() {
+    // 680 x 735 garasje.
+    difference() {
+     color("lightgray") cube([680,735,300], center=false);   
+
+            translate([25,25,0]) cube([730,685,250], center=false);
+    }
+}
 
 //alt1();
 //spacer();
 
-wallthick = 2*25;
 
-rotate([0,0,-11]) {    
+rotate([0,0,-11.5]) {    
 firstfloor();
 translate([0,0,2]) secondfloor(); 
  
  // terrace
  difference() {
- color("darkgray") translate([100,300,300]) cube([900+wallthick, 500+wallthick, 20]);
+ color("darkgray") translate([startx,starty,300]) cube([900+wallthick, 500+wallthick, 20]);
     
     // terrace cutout 
-    translate([100-1,300-1,300-10]) cube([450+wallthick, 250+wallthick, 50]);     
+    translate([startx-1,starty-1,300-10]) cube([450+wallthick, 250+wallthick, 50]);     
  }      
      
 }
+
+translate([0,1645,0]) garage();
