@@ -100,7 +100,7 @@ module walls(color, x, y, z, a, b, h) {
 difference() {
 color(color) translate([x,y,z]) cube([a+wallthick, b+wallthick, h]);
 
-translate([x+wallthick,y+wallthick,z]) cube([a-wallthick, b-wallthick, h-wallthick]);
+color("white") translate([x+wallthick,y+wallthick,z]) cube([a-wallthick, b-wallthick, h-wallthick]);
     } 
 }
 
@@ -114,25 +114,37 @@ module firstfloor() {
 difference() {    
 walls("gray", startx, starty+500+wallthick, 0, 700, 800, 300);
 
-translate([startx-wallthick, starty+600, 100]) cube([wallthick*3, 500, 100]);
+color("white") translate([startx-wallthick, starty+600, 100]) cube([wallthick*3, 500, 100]);
     
-translate([500, 700+wallthick, 0]) cube([200, wallthick*3, 200]);    
+color("white") translate([500, 700+wallthick, 0]) cube([200, wallthick*3, 100]);    
     
-translate([500, 1600+wallthick, 0]) cube([200, wallthick*3, 200]);        
+color("white") translate([500, 1600+wallthick, 100]) cube([200, wallthick*3, 100]);        
 }
 
 // 500x500 block = 25
 difference() {    
 walls("lightgray", startx+700+wallthick,starty+500+wallthick, 0, 500, 500, 300);
     
-    translate([startx+1200+wallthick, 1000+wallthick, 100]) cube([wallthick*3, 200, 100]);    
+    // window
+    color("white") translate([startx+1200+wallthick, 1000+wallthick, 100]) cube([wallthick*3, 200, 100]);    
+    
+    // door
+    color("white") translate([startx+800+wallthick, 1300+wallthick, 0]) cube([150, wallthick*3, 200]);        
 }    
     
 // 1100x500 block = 55
 difference() {
 walls("darkgray", startx+700+wallthick,starty, 0, 1100, 500, 300); 
+
+// window end    
+color("white") translate([startx+1800, 400, 100]) cube([wallthick*3, 300, 100]);            
+// door side
+color("white") translate([startx+1600, 700+wallthick, 0]) cube([150, wallthick*3, 200]);                    
+// large window
+color("white") translate([startx+1000, 250, 200]) cube([800, wallthick*3, 50]);    
+
+color("white") translate([startx+700, 400, 200]) cube([wallthick*3, 300, 50]);
     
-translate([startx+1800, 400, 100]) cube([wallthick*3, 300, 100]);            
 }
     
 }
@@ -145,7 +157,9 @@ union() {
 difference() {
 walls("gray", startx, starty+500+wallthick, 300, 700, 800, 300);
 
-translate([500, 1600+wallthick, 400]) cube([200, wallthick*3, 100]);            
+color("white") translate([500, 1500+wallthick, 400]) cube([200, wallthick*3, 100]);            
+    
+color("white") translate([wallthick, 1100+wallthick, 400]) cube([wallthick*3, 300, 100]);                
 }
 
         
@@ -153,21 +167,29 @@ translate([500, 1600+wallthick, 400]) cube([200, wallthick*3, 100]);
     difference() {
 walls("lightgray", startx+700+wallthick,starty+500+wallthick, 300, 500, 500, 300);    
 
-    translate([startx+1200+wallthick, 1000+wallthick, 400]) cube([wallthick*3, 200, 100]);            
+    color("white") translate([startx+1200+wallthick, 1000+wallthick, 400]) cube([wallthick*3, 200, 100]);
+
+    // kitchen window
+    color("white") translate([startx+800+wallthick, 1300+wallthick, 400]) cube([300, wallthick*3, 50]);        
 }
     
 // 1100x500 block
 difference() {        
 walls("darkgray", startx+700+wallthick,starty, 300, 1100, 500, 300);
 
-translate([startx+1200, 250, starty+50]) cube([600, wallthick*3, 200]);    
-    
-translate([startx+1800, 400, starty+50]) cube([wallthick*3, 300, 200]);        
+// large window
+color("white") translate([startx+1000, 250, starty+50]) cube([600, wallthick*3, 200]);    
+
+// window    
+color("white") translate([startx+1800, 400, starty+200]) cube([wallthick*3, 300, 50]);    
+
+// window up
+color("white") translate([startx+1500, 700+wallthick, 500]) cube([300, wallthick*3, 50]);    
 }
 }
     
 // terrace cutout
-color("lightgray") {
+color("white") {
   union() {
     hull() {
 translate([startx-1,starty-1,300]) cube([500+wallthick, 500+200+wallthick, 320]);    
@@ -185,7 +207,7 @@ module garage() {
     difference() {
      color("lightgray") cube([680,735,300], center=false);   
 
-            translate([25,25,0]) cube([730,685,250], center=false);
+    color("white") translate([25,25,0]) cube([730,685,250], center=false);
     }
 }
 
@@ -199,10 +221,10 @@ translate([0,0,2]) secondfloor();
  
  // terrace
  difference() {
- color("darkgray") translate([startx,starty,300]) cube([900+wallthick, 500+wallthick, 20]);
+ color("white") translate([startx,starty,300]) cube([900+wallthick, 500+wallthick, 20]);
     
     // terrace cutout 
-    translate([startx-1,starty-1,300-10]) cube([450+wallthick, 250+wallthick, 50]);     
+    color("white") translate([startx-1,starty-1,300-10]) cube([450+wallthick, 250+wallthick, 50]);     
  }      
      
 }
