@@ -5,22 +5,61 @@ b = [[250,250],[250,2600-220],[750-100,2700-265],[2650,-250]];
 %polygon(a);
 color("black") polygon(b);
 
-module topfloor() {
-    
-    color("gray") translate([0,0,300]) cube([850, 1300, 300]);
+// cube with hole like wall
+module walls(color, x, y, z, a, b, h) {
+
+difference() {
+color(color) translate([x,y,z]) cube([a+wallthick, b+wallthick, h]);
+
+color("white") translate([x+wallthick,y+wallthick,z]) cube([a-wallthick, b-wallthick, h-wallthick]);
+    } 
 }
 
-module firstfloor() {
+wallthick = 2*25;
+
+module topfloor() {
     
-    color("gray") translate([0,0,000]) cube([850, 2000, 300]);
+    difference() {
+    walls("gray", 100,-30,300,700,1300,300);
+    
+    // windows
+ //translate([750,100,400]) cube([3*wallthick, 400, 150]);
+ //translate([750,800,400]) cube([3*wallthick, 400, 150]);
+
+    // windows
+ //translate([wallthick,100,400]) cube([3*wallthick, 400, 150]);
+ //translate([wallthick,800,400]) cube([3*wallthick, 400, 150]);
+
+    }
+        
+    //color("gray") translate([100,-30,300]) cube([700+wallthick, 1300+wallthick, 300]);
+}
+
+module bottomfloor() {
+
+    color("darkgray")   
+    difference() {
+    hull() {
+     //translate([100,-30,000]) cube([700+wallthick, 1700+wallthick, 300]);
+    
+    walls("gray", 100,-30,0,700,1700,300);        
+     //translate([-300-wallthick+90,350,0]) cube([300+wallthick, 1000+wallthick, 300]);
+
+    walls("gray", -300-wallthick+90,350,0,300,1000,300);
+    }
+    
+        // windows
+    }
 }
 
 module alt1() {
 
 rotate([0,0,36.8]) { 
     
-    translate([1120,-200,0]) topfloor();
-    translate([1120,-900,0]) firstfloor();    
+    translate([1130,-500,1]) topfloor();
+    translate([1130,-900,0]) bottomfloor();    
+    
+    translate([1180,830,0]) garage();
 }
 }
 
@@ -28,18 +67,21 @@ module alt2() {
 
 rotate([0,0,0]) { 
     
-    translate([300,1000,000]) color("gray") cube([850, 850, 300]);
+    translate([250,1000,000]) color("gray") cube([800+wallthick, 800+wallthick, 300]);
 
-    translate([950,150,000]) color("lightgray") cube([850, 850, 300]);
+    translate([850,150,000]) color("lightgray") cube([800+wallthick, 800+wallthick, 300]);
 
-    translate([300,1000,300]) color("gray") cube([850, 850, 300]);
+    translate([250,1000,300]) color("gray") cube([800+wallthick, 800+wallthick, 300]);
 
-    translate([950,580,300]) color("lightgray") cube([850, 425, 300]);
+    translate([850,550,300]) color("lightgray") cube([800+wallthick, 400+wallthick, 300]);
 
 rotate([0,0,36.8]) { 
     translate([1980,-50,0]) cube([250,100,100]);
 }
 }
+
+translate([000,1850,0]) garage();
+
 }
 
 
@@ -94,17 +136,6 @@ cube([250,100,100]);
 
 }
 
-// cube with hole like wall
-module walls(color, x, y, z, a, b, h) {
-
-difference() {
-color(color) translate([x,y,z]) cube([a+wallthick, b+wallthick, h]);
-
-color("white") translate([x+wallthick,y+wallthick,z]) cube([a-wallthick, b-wallthick, h-wallthick]);
-    } 
-}
-
-wallthick = 2*25;
 startx=90;
 starty=290;
 
@@ -211,10 +242,7 @@ module garage() {
     }
 }
 
-//alt1();
-//spacer();
-
-
+module alt4() {
 rotate([0,0,-11.5]) {    
 firstfloor();
 translate([0,0,2]) secondfloor(); 
@@ -230,3 +258,7 @@ translate([0,0,2]) secondfloor();
 }
 
 translate([0,1645,0]) garage();
+}
+
+alt1();
+//spacer();
